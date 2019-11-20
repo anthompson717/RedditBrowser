@@ -1,3 +1,8 @@
 <resources>
+    <string name="main_title">Reddit Browser</string>
     <string name="app_name">RedditBrowser</string>
+    <string name="button_search_query">Go</string>
+    <string name="radio_search_subreddits">Subreddit search</string>
+    <string name="radio_search_posts">post search</string>
+
 </resources>

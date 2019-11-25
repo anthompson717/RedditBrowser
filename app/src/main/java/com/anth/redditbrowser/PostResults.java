@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,8 @@ public class PostResults extends AppCompatActivity {
             postList.add(hash);
         }
 
-        postListView.setAdapter(postList);
+        SimpleAdapter adapter = new SimpleAdapter(this, postList, R.layout.adapter_post_item, from, to);
+        postListView.setAdapter(adapter);
 
         */
     }

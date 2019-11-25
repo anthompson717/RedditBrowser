@@ -1,4 +1,9 @@
 <resources>
+    <string name="login_title">Sign in</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button_login">Log in</string>
+    <string name="login_button_skip">continue without logging in</string>
     <string name="main_title">Reddit Browser</string>
     <string name="app_name">RedditBrowser</string>
     <string name="button_search_query">Go</string>

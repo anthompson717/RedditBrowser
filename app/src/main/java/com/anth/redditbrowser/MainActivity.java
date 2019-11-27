@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    //TODO: Check if access token is set in SharedPreferences, if it is auto login,  else send to login
+
     public void search(View v) {
 
         RadioButton radio = (RadioButton) findViewById(R.id.radio_subreddit);

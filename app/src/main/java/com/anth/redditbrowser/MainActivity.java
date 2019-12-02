@@ -16,12 +16,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);/*
+        setContentView(R.layout.activity_main);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         LogInFragment fragment = new LogInFragment();
         fragmentTransaction.add(R.id.outer, fragment);
-        fragmentTransaction.commit();*/
+        fragmentTransaction.commit();
     }
 
     public void onRadioButtonClicked(View v){
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             searchResult = new Intent(this, PostResults.class);
         }
-        //Todo: set up parameters before moving to intent.
         searchResult.putExtra("search", search);
         startActivity(searchResult);
 

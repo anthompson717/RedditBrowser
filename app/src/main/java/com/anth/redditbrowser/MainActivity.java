@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean isSubreddit = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +22,23 @@ public class MainActivity extends AppCompatActivity {
         LogInFragment fragment = new LogInFragment();
         fragmentTransaction.add(R.id.outer, fragment);
         fragmentTransaction.commit();*/
+    }
+
+    public void onRadioButtonClicked(View v){
+        // Is the button now checked?
+        boolean checked = ((RadioButton) v).isChecked();
+
+// Check which radio button was clicked
+        switch(v.getId()) {
+            case R.id.radio_post:
+                if (checked)
+                    isSubreddit = true;
+                break;
+            case R.id.radio_subreddit:
+                if (checked)
+                    isSubreddit = false;
+                break;
+        }
     }
 
     public void search(View v) {
@@ -33,14 +51,12 @@ public class MainActivity extends AppCompatActivity {
         Intent searchResult;
         if (isSubreddit) {
             searchResult = new Intent(this, SubRedditResults.class);
-            searchResult.putExtra("search", search);
-            startActivity(searchResult);
         }
-        else
+        else {
             searchResult = new Intent(this, PostResults.class);
-
+        }
         //Todo: set up parameters before moving to intent.
-
+        searchResult.putExtra("search", search);
         startActivity(searchResult);
 
     }

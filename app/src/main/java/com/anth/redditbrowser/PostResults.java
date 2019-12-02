@@ -2,27 +2,57 @@ package com.anth.redditbrowser;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PostResults extends AppCompatActivity {
+
+    public String url1 = "https://www.reddit.com/search.json?q=";
+    public String searchTerm = "";
+    public String url2 = "&sort=new&limit=20";
+    public ArrayList<String> args = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_results);
         //setAdapter();
+
+        Bundle extra = getIntent().getExtras();
+        searchTerm = extra.getString("search");
+
+        Posts untitled = new Posts();
+        untitled.execute();
     }
 
+
+
     private void setAdapter() {
+        ListView tasksListView = (ListView)findViewById(R.id.post_results);
 
-        final ListView postListview = (ListView) findViewById(R.id.post_results);
+        // Create a new Array Adapter
+        // Specify which layout and view to use for a row
+        // and the data (array) to use
+        ArrayAdapter<String> taskArrayAdapter = new ArrayAdapter<String>(this, R.layout.adapter_post_item, R.id.post_comment_counter, args);
 
-        ArrayList<HashMap<String, String>> postList = new ArrayList<HashMap<String, String>>();
+        // Link the ListView and the Adapter
+        tasksListView.setAdapter(taskArrayAdapter);
+        /*
+        final ListView subredditListview = (ListView) findViewById(R.id.subreddit_results);
+
+        ArrayList<HashMap<String, String>> subredditList = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> hash = new HashMap<String, String>();
 
         String[] from = { }; //TODO: set the hash keys
@@ -34,12 +64,53 @@ public class PostResults extends AppCompatActivity {
         for(int i=0; i< ; i++) // TODO: set the size
         {
             hash.put(); // TODO: set the contents of Hashmap
-            postList.add(hash);
+            subredditList.add(hash);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this, postList, R.layout.adapter_post_item, from, to);
-        postListView.setAdapter(adapter);
+        SimpleAdapter adapter = new SimpleAdapter(this, subredditList, R.layout.adapter_post_item, from, to);
+        subredditListview.setAdapter(adapter);
 
         */
+
+    }
+
+    private class Posts extends AsyncTask<Void, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(Void... voids) {
+            try {
+                String json = "";
+                String line;
+
+                URL url = new URL(url1 + searchTerm + url2);
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                while ((line = in.readLine()) != null) {
+                    System.out.println("JSON LINE " + line);
+                    json += line;
+                }
+                in.close();
+                JSONObject subredditResults = new JSONObject(json).getJSONObject("data");
+                return subredditResults;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                JSONArray subslist = jsonObject.getJSONArray("children");
+                for(int i = 0; i < subslist.length();i++){
+                    JSONObject info = subslist.getJSONObject(i).getJSONObject("data");
+                    String postTitle = info.getString("title");
+                    String author = info.getString("author");
+                    String subreddit = info.getString("subreddit_name_prefixed");
+                    args.add(postTitle + "\nu/" + author + "\n" + subreddit);
+                }
+                setAdapter();
+            }
+            catch(Exception e){e.printStackTrace();}
+        }
     }
 }

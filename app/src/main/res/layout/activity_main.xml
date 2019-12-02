@@ -47,10 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radio_search_subreddits"
+            android:onClick="onRadioButtonClicked"
             android:checked="true"/>
         <RadioButton android:id="@+id/radio_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
             android:text="@string/radio_search_posts" />
     </RadioGroup>
 </LinearLayout>

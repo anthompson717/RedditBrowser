@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,9 @@ public class LogInFragment extends Fragment {
     String secret = "";
     String stringURL = "https://www.reddit.com/api/v1/access_token";
     String[] code;
+    Activity containerActivity = null;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +60,9 @@ public class LogInFragment extends Fragment {
         });
         a.loadUrl(tokenURL + "new" + continueURL);
         return v;
+    }
+    public void setContainerActivity(Activity containerActivity) {
+        this.containerActivity = containerActivity;
     }
 
     class LoginSync extends AsyncTask<Void, Void, Void> {
@@ -95,6 +102,12 @@ public class LogInFragment extends Fragment {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            startActivity(intent);
         }
     }
 

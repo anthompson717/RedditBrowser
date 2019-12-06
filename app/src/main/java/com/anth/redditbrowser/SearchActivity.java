@@ -49,6 +49,7 @@ public class SearchActivity extends AppCompatActivity {
         else {
             searchResult = new Intent(this, PostResults.class);
         }
+
         searchResult.putExtra("search", search);
         startActivity(searchResult);
 

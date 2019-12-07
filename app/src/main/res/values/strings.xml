@@ -9,7 +9,7 @@
     <string name="button_search_query">Go</string>
     <string name="radio_search_subreddits">Subreddit search</string>
     <string name="radio_search_posts">post search</string>
-
+    <string name="preference_file_key">com.anth.redditbrowser</string>
     <string name="subreddit_start">r/</string>
     <string name="user_start">u/</string>
 

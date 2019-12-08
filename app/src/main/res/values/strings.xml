@@ -12,6 +12,7 @@
     <string name="preference_file_key">com.anth.redditbrowser</string>
     <string name="subreddit_start">r/</string>
     <string name="user_start">u/</string>
+    <string name="info_text">Welcome to our Reddit Browser App! This app assists the user, you, in browsing the reddit website. On the previous screen you saw your name, an EditText box and two buttons. To use our app simply enter any search term into the box and select whether you want to search all posts or for a subreddit. If you selected all posts you can tap a post then view the information it contains. Otherwise you may select a subreddit and view the recent posts which you may tap to view their information.</string>
 
 
 </resources>

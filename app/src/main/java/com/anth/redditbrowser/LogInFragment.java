@@ -7,7 +7,9 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -20,6 +22,10 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.loopj.android.http.AsyncHttpClient;
+
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -31,7 +37,7 @@ public class LogInFragment extends Fragment {
 
     private String tokenURL = "https://www.reddit.com/api/v1/authorize?client_id=35XCcVTg-CoqyQ&response_type=code&state=";
     private String stateRandString = "true";
-    private String continueURL = "&redirect_uri=https://github.com/anthompson717/RedditBrowser&duration=permanent&scope=vote";
+    private String continueURL = "&redirect_uri=https://github.com/anthompson717/RedditBrowser&duration=temporary&scope=read";
     String username = "";
     String password = "";
     String clientID = "";
@@ -96,8 +102,13 @@ public class LogInFragment extends Fragment {
                     response.append(inputLine);
                 }
                 in.close();
+                //System.out.println(response.toString());
                 System.out.println(response.toString());
-
+                JSONObject respString = new JSONObject(response.toString());
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token", respString.getString("access_token"));
+                editor.commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }

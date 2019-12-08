@@ -148,9 +148,12 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
-                String username = json.getJSONObject("subreddit").getString("display_name");
+                String username = json.getJSONObject("subreddit").getString("display_name_prefixed");
                 TextView usernameBox = findViewById(R.id.username);
                 usernameBox.setText("Welcome " + username);
+                String karma = Integer.toString((Integer.parseInt(json.getString("comment_karma")) + Integer.parseInt(json.getString("link_karma"))));
+                TextView karmaBox = findViewById(R.id.karma);
+                karmaBox.setText("Karma: " + karma);
             }
             catch (Exception e){e.printStackTrace();}
         }

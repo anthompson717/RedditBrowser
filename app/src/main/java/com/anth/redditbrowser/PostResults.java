@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -129,7 +130,15 @@ public class PostResults extends AppCompatActivity {
 
              */
 
-            return RedditAPIHandler.searchPost(searchTerm);
+            JSONObject returnJSON = null;
+
+            try {
+                returnJSON = RedditAPIHandler.searchPost(searchTerm).getJSONObject("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return  returnJSON;
         }
 
         @Override

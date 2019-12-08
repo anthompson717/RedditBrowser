@@ -2,6 +2,7 @@ package com.anth.redditbrowser;
 
 import android.app.Application;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ public final class RedditAPIHandler {
             "https://www.reddit.com/search.json?q=";
     private static final String subredditHotURL1 = "https://www.reddit.com/r/";
     private static final String subredditHotURL2 = "/top.json?limit=40";
-    private static final String commentURL =  "https://www.reddit.com/subreddits";
+    private static final String commentURL =  "https://www.reddit.com/";
 
     private RedditAPIHandler() {
         // setting singleton class
@@ -33,8 +34,8 @@ public final class RedditAPIHandler {
         return getJSON(subredditHotURL1 + subreddit + subredditHotURL2);
     }
 
-    public static JSONObject getPost(String permalink) {
-        return getJSON(commentURL + permalink + ".json");
+    public static JSONArray getPost(String permalink) {
+        return getJSONArray(commentURL + permalink + ".json");
     }
 
     private static JSONObject getJSON(String urlString) {
@@ -50,7 +51,8 @@ public final class RedditAPIHandler {
                 json += line;
             }
             in.close();
-            JSONObject subredditResults = new JSONObject(json).getJSONObject("data");
+            JSONObject subredditResults = new JSONObject(json);
+
             return subredditResults;
         } catch (Exception e) {
             System.out.println("\nerror found in retrieving JSONObject\n");
@@ -59,6 +61,27 @@ public final class RedditAPIHandler {
         return null;
     }
 
+    private static JSONArray getJSONArray(String urlString) {
+        try {
+            String json = "";
+            String line;
 
+            URL url = new URL(urlString);
 
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            while ((line = in.readLine()) != null) {
+                System.out.println("JSON LINE " + line);
+                json += line;
+            }
+            in.close();
+
+            JSONArray subredditResults = new JSONArray(json);
+
+            return subredditResults;
+        } catch (Exception e) {
+            System.out.println("\nerror found in retrieving JSONArray\n");
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

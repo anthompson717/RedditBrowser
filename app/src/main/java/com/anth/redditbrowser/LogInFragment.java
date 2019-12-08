@@ -37,7 +37,7 @@ public class LogInFragment extends Fragment {
 
     private String tokenURL = "https://www.reddit.com/api/v1/authorize?client_id=35XCcVTg-CoqyQ&response_type=code&state=";
     private String stateRandString = "true";
-    private String continueURL = "&redirect_uri=https://github.com/anthompson717/RedditBrowser&duration=temporary&scope=read";
+    private String continueURL = "&redirect_uri=https://github.com/anthompson717/RedditBrowser&duration=temporary&scope=*";
     String username = "";
     String password = "";
     String clientID = "";

@@ -80,43 +80,16 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void getUsername() {
-        Doinb doinb = new Doinb();
+        Username doinb = new Username();
         doinb.execute();
-        /*
-        Log.i("token", sharedPreferences.getString("token", ""));
-
-        Header[] headers = new Header[3];
-        headers[0] = new BasicHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:27.0)");
-        headers[1] = new BasicHeader("Authorization", "bearer " + sharedPreferences.getString("token", ""));
-        headers[2] = new BasicHeader("Content-Type", "application/x-www-form-urlencoded");
-
-
-        client.get(this, "https://oauth.reddit.com/api/v1/me", headers, null, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("response", response.toString());
-                try {
-                    String username = response.getString("name").toString();
-                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                    edit.putString("username", username);
-                    edit.commit();
-                    System.out.println(username);
-                } catch (JSONException j) {
-                    j.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.i("response", errorResponse.toString());
-                Log.i("statusCode", "" + statusCode);
-            }
-        });*/
     }
 
-    class Doinb extends AsyncTask<Void, Void, JSONObject>{
+    public void post(View v){
+        Intent intent = new Intent(this, PostActivity.class);
+        startActivity(intent);
+    }
+
+    class Username extends AsyncTask<Void, Void, JSONObject>{
         @Override
         protected JSONObject doInBackground(Void... voids) {
             try {
@@ -126,6 +99,7 @@ public class SearchActivity extends AppCompatActivity {
                 con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:27.0)");
                 con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 con.setRequestProperty("Authorization", "Bearer " + token);
+
 
                 int responsecode = con.getResponseCode();
                 System.out.println("\nSending 'GET' request to URL : " + "https://oauth.reddit.com/api/v1/me");

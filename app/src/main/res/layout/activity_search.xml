@@ -75,4 +75,14 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/radio_search_posts" />
     </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:background="@color/backgroundOffset"
+        android:textColor="@color/colorAccent"
+        android:onClick="post"/>
 </LinearLayout>

@@ -53,14 +53,14 @@ public class LogInFragment extends Fragment {
                                 Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.login_fragment, container, false);
         super.onCreate(savedInstanceState);
-        if (isSet()){skipLogin(null);}
         WebView a = v.findViewById(R.id.wv);
         a.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.contains("code=")){
                 code = url.split("code=");
                 LoginSync i = new LoginSync();
-                i.execute();
+                i.execute();}
                 return false;
             }
         });
@@ -120,14 +120,5 @@ public class LogInFragment extends Fragment {
             Intent intent = new Intent(getActivity(), SearchActivity.class);
             startActivity(intent);
         }
-    }
-
-    public void skipLogin(View v) {
-        //Intent searchActivity = new Intent(this, MainActivity.class);
-        //startActivity(searchActivity);
-    }
-
-    public boolean isSet(){
-        return false;
     }
 }

@@ -46,8 +46,6 @@ public class LogInFragment extends Fragment {
     String[] code;
     Activity containerActivity = null;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
@@ -61,6 +59,11 @@ public class LogInFragment extends Fragment {
                 code = url.split("code=");
                 LoginSync i = new LoginSync();
                 i.execute();}
+                System.out.println(url);
+                if(url=="https://www.reddit.com/"){
+                    view.loadUrl(tokenURL + "new" + continueURL);
+
+                    view.loadUrl(tokenURL + "new" + continueURL);}
                 return false;
             }
         });

@@ -41,6 +41,8 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         String token = sharedPreferences.getString("token", "");
         System.out.println(token);
+        Test test = new Test();
+        test.execute();
     }
 
     public void onRadioButtonClicked(View v){
@@ -131,6 +133,42 @@ public class SearchActivity extends AppCompatActivity {
                 karmaBox.setText("Karma: " + karma);
             }
             catch (Exception e){e.printStackTrace();}
+        }
+    }
+
+    class Test extends AsyncTask<Void, Void, JSONObject>{
+        @Override
+        protected JSONObject doInBackground(Void... voids) {
+            try {
+                String token = sharedPreferences.getString("token", "");
+                HttpURLConnection con = (HttpURLConnection) new URL("https://oauth.reddit.com/subreddits/mine/subscriber").openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:27.0)");
+                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                con.setRequestProperty("Authorization", "bearer " + token);
+
+
+                int responsecode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + "https://oauth.reddit.com/api/v1/me");
+                System.out.println("Response Code : " + responsecode);
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null){
+                    response.append(inputLine);
+                }
+                in.close();
+                JSONObject jsonObject = new JSONObject(response.toString());
+                return jsonObject;
+            }
+            catch (Exception e){e.printStackTrace();}
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            System.out.println(json);
         }
     }
 

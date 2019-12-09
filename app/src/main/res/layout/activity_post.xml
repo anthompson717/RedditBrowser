@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/backgronds"
+    tools:context=".PostActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgronds">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="20dp"
+        android:textColorHint="@color/textOffset"
+        android:text="r/"
+        android:id="@+id/subreddit"
+        android:hint="Subreddit Name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColorHint="@color/textOffset"
+        android:id="@+id/title"
+        android:textColor="@color/colorAccent"
+        android:hint="Title"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColorHint="@color/textOffset"
+        android:textSize="20dp"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/content"
+        android:lines="20"
+        android:hint="Body"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:background="@color/backgroundOffset"
+        android:gravity="left"
+        android:onClick="submit"
+        android:text="Submit"
+        android:textColor="@color/colorAccent" />
+
+</LinearLayout>
+</ScrollView>

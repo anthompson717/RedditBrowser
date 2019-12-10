@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgronds"
     tools:context=".ContentActivity">
 
     <TextView
@@ -12,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+
+        android:textColor="@color/colorAccent"
         android:text="@string/subreddit_start"
         app:layout_constraintBottom_toTopOf="@id/content_author"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,6 +24,7 @@
     <TextView
         android:id="@+id/content_author"
         android:layout_width="match_parent"
+        android:textColor="@color/colorAccent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:text="@string/user_start"
@@ -32,6 +36,7 @@
     <TextView
         android:id="@+id/content_title"
         android:layout_width="match_parent"
+        android:textColor="@color/colorAccent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:textStyle="bold"

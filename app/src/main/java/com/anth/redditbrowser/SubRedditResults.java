@@ -2,11 +2,13 @@ package com.anth.redditbrowser;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,7 +32,7 @@ public class SubRedditResults extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         if(extra.getBoolean("subs")){
             try{
-            JSONObject json = new JSONObject(extra.getString("subscriptions"));
+            JSONObject json = new JSONObject(extra.getString("subscriptions")).getJSONObject("data");
             getReddits(json);}
             catch (Exception e){e.printStackTrace();}
         }
@@ -39,6 +41,16 @@ public class SubRedditResults extends AppCompatActivity {
         Subreddits untitled = new Subreddits();
         untitled.execute();}
         //setAdapter();
+    }
+
+    public void showSubreddit(View v){
+        TextView tv = (TextView) v.findViewById(R.id.subreddit_desc);
+        String title = tv.getText().toString();
+        String goHere = title.split("\n")[0];
+        Intent intent = new Intent(this, PostResults.class);
+        intent.putExtra("enhance", true);
+        intent.putExtra("search", goHere);
+        startActivity(intent);
     }
 
     private void setAdapter() {
@@ -80,7 +92,7 @@ public class SubRedditResults extends AppCompatActivity {
 
     public void getReddits(JSONObject jsonObject) {
         try{
-        JSONArray subslist = jsonObject.getJSONObject("data").getJSONArray("children");
+        JSONArray subslist = jsonObject.getJSONArray("children");
         for(int i = 0; i < subslist.length();i++){
             JSONObject info = subslist.getJSONObject(i).getJSONObject("data");
             String name = info.getString("display_name_prefixed");
@@ -98,6 +110,7 @@ public class SubRedditResults extends AppCompatActivity {
                 String line;
 
                 URL url = new URL(url1 + searchTerm);
+                System.out.println(url);
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
                 while ((line = in.readLine()) != null) {

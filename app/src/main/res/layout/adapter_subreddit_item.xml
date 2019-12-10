@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@color/backgronds">
+    android:background="@color/backgronds"
+    android:onClick="showSubreddit">
 <!--
     <ImageView
         android:id="@+id/subreddit_image"

@@ -75,6 +75,7 @@ public class SearchActivity extends AppCompatActivity {
         }
         else {
             searchResult = new Intent(this, PostResults.class);
+            searchResult.putExtra("enhance", false);
         }
 
         searchResult.putExtra("search", search);
@@ -163,7 +164,7 @@ public class SearchActivity extends AppCompatActivity {
                 in.close();
                 jibs = response.toString();
                 JSONObject jsonObject = new JSONObject(response.toString());
-                return jsonObject;
+                return jsonObject.getJSONObject("data");
             }
             catch (Exception e){e.printStackTrace();}
             return null;

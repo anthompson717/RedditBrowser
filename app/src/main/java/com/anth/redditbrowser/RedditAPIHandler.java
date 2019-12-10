@@ -15,7 +15,7 @@ public final class RedditAPIHandler {
             "https://www.reddit.com/subreddits/search.json?q=";
     private static final String searchPostURL =
             "https://www.reddit.com/search.json?q=";
-    private static final String subredditHotURL1 = "https://www.reddit.com/r/";
+    private static final String subredditHotURL1 = "https://www.reddit.com/";
     private static final String subredditHotURL2 = "/top.json?limit=40";
     private static final String commentURL =  "https://www.reddit.com/";
 
@@ -23,7 +23,7 @@ public final class RedditAPIHandler {
         // setting singleton class
     }
     public static JSONObject searchSubreddit (String q) {
-        return getJSON(searchSubredditURL + q);
+        return getJSON(subredditHotURL1 + q + subredditHotURL2);
     }
 
     public static JSONObject searchPost(String q) {

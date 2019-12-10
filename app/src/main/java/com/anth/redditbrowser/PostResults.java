@@ -30,6 +30,8 @@ public class PostResults extends AppCompatActivity {
     //public ArrayList<String> args = new ArrayList<String>();
     ListView tasksListView;
     Intent content;
+    Boolean enhance = null;
+    String subreddit = "";
 
 
     @Override
@@ -40,6 +42,7 @@ public class PostResults extends AppCompatActivity {
 
         Bundle extra = getIntent().getExtras();
         searchTerm = extra.getString("search");
+        enhance = extra.getBoolean("enhance");
 
         content = new Intent(this, ContentActivity.class);
 
@@ -66,7 +69,7 @@ public class PostResults extends AppCompatActivity {
         //final ListView subredditListview = (ListView) findViewById(R.id.subreddit_results);
 
         ArrayList<HashMap<String, String>> subredditList = new ArrayList<HashMap<String, String>>();
-
+System.out.println(jsonObject);
         String[] from = {"title","author","subreddit" };
         int[] to = {R.id.post_title, R.id.post_user, R.id.post_subreddit };
 
@@ -133,7 +136,13 @@ public class PostResults extends AppCompatActivity {
             JSONObject returnJSON = null;
 
             try {
-                returnJSON = RedditAPIHandler.searchPost(searchTerm).getJSONObject("data");
+                if (!enhance) {
+
+                    returnJSON = RedditAPIHandler.searchPost(searchTerm).getJSONObject("data");
+                }
+                else{
+                    returnJSON = RedditAPIHandler.searchSubreddit(searchTerm).getJSONObject("data");
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

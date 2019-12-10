@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/backgronds">
 <!--
     <ImageView
         android:id="@+id/subreddit_image"
@@ -29,6 +30,7 @@
     <TextView
         android:id="@+id/subreddit_desc"
         android:textSize="20dp"
+        android:textColor="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

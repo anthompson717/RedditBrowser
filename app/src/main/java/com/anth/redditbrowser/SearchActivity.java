@@ -78,6 +78,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         searchResult.putExtra("search", search);
+        searchResult.putExtra("subs", false);
         startActivity(searchResult);
     }
 
@@ -87,7 +88,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void post(View v){
-        Intent intent = new Intent(this, PostActivity.class);
+        Intent intent = new Intent(this, SubRedditResults.class);
+        intent.putExtra("subs", true);
+        intent.putExtra("subscriptions", jibs);
         startActivity(intent);
     }
 
@@ -135,7 +138,7 @@ public class SearchActivity extends AppCompatActivity {
             catch (Exception e){e.printStackTrace();}
         }
     }
-
+    private String jibs = "";
     class Test extends AsyncTask<Void, Void, JSONObject>{
         @Override
         protected JSONObject doInBackground(Void... voids) {
@@ -149,7 +152,6 @@ public class SearchActivity extends AppCompatActivity {
 
 
                 int responsecode = con.getResponseCode();
-                System.out.println("\nSending 'GET' request to URL : " + "https://oauth.reddit.com/api/v1/me");
                 System.out.println("Response Code : " + responsecode);
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -159,6 +161,7 @@ public class SearchActivity extends AppCompatActivity {
                     response.append(inputLine);
                 }
                 in.close();
+                jibs = response.toString();
                 JSONObject jsonObject = new JSONObject(response.toString());
                 return jsonObject;
             }

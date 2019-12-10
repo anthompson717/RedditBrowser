@@ -28,10 +28,16 @@ public class SubRedditResults extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_reddit_results);
         Bundle extra = getIntent().getExtras();
+        if(extra.getBoolean("subs")){
+            try{
+            JSONObject json = new JSONObject(extra.getString("subscriptions"));
+            getReddits(json);}
+            catch (Exception e){e.printStackTrace();}
+        }
+        else{
         searchTerm = extra.getString("search");
-
         Subreddits untitled = new Subreddits();
-        untitled.execute();
+        untitled.execute();}
         //setAdapter();
     }
 
@@ -72,9 +78,16 @@ public class SubRedditResults extends AppCompatActivity {
 
 
 
-    public void getHot(View v) {
-
-
+    public void getReddits(JSONObject jsonObject) {
+        try{
+        JSONArray subslist = jsonObject.getJSONObject("data").getJSONArray("children");
+        for(int i = 0; i < subslist.length();i++){
+            JSONObject info = subslist.getJSONObject(i).getJSONObject("data");
+            String name = info.getString("display_name_prefixed");
+            String subs = info.getString("subscribers");
+            args.add(name + "\nSubscribers: " + subs);
+        }}catch (Exception e){e.printStackTrace();}
+        setAdapter();
     }
 
     private class Subreddits extends AsyncTask<Void, Void, JSONObject>{
@@ -102,17 +115,7 @@ public class SubRedditResults extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
-            try {
-                JSONArray subslist = jsonObject.getJSONArray("children");
-                for(int i = 0; i < subslist.length();i++){
-                    JSONObject info = subslist.getJSONObject(i).getJSONObject("data");
-                    String name = info.getString("display_name_prefixed");
-                    String subs = info.getString("subscribers");
-                    args.add(name + "\nSubscribers: " + subs);
-                }
-                setAdapter();
-            }
-            catch(Exception e){e.printStackTrace();}
+                getReddits(jsonObject);
         }
     }
 }

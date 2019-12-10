@@ -79,7 +79,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Post"
+        android:text="Subscribed"
         android:gravity="center"
         android:textSize="20dp"
         android:background="@color/backgroundOffset"

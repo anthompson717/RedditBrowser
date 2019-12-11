@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(){
+
+        // temporary code while editing everything
+        //Intent intent = new Intent(this, SearchActivity.class);
         Intent intent = new Intent(this, FragmentActivity.class);
         startActivity(intent);
     }

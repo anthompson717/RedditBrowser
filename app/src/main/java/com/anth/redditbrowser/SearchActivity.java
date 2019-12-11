@@ -2,6 +2,7 @@ package com.anth.redditbrowser;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,7 +81,7 @@ public class SearchActivity extends AppCompatActivity {
 
         searchResult.putExtra("search", search);
         searchResult.putExtra("subs", false);
-        startActivity(searchResult);
+        startActivity(searchResult ,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void getUsername() {

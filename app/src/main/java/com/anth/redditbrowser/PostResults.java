@@ -37,6 +37,7 @@ public class PostResults extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         setContentView(R.layout.activity_post_results);
         //setAdapter();
 
@@ -51,22 +52,9 @@ public class PostResults extends AppCompatActivity {
 
     }
 
-
-
     private void setAdapter(JSONObject jsonObject) {
 
-
         tasksListView = (ListView)findViewById(R.id.post_results);
-
-        // Create a new Array Adapter
-        // Specify which layout and view to use for a row
-        // and the data (array) to use
-        //ArrayAdapter<String> taskArrayAdapter = new ArrayAdapter<String>(this, R.layout.adapter_post_item, R.id.post_comment_counter, args);
-
-        // Link the ListView and the Adapter
-        //tasksListView.setAdapter(taskArrayAdapter);
-
-        //final ListView subredditListview = (ListView) findViewById(R.id.subreddit_results);
 
         ArrayList<HashMap<String, String>> subredditList = new ArrayList<HashMap<String, String>>();
 System.out.println(jsonObject);
@@ -83,7 +71,6 @@ System.out.println(jsonObject);
                 hash.put("subreddit", info.getString("subreddit_name_prefixed"));
                 hash.put("permalink", info.getString("permalink"));
                 subredditList.add(hash);
-
             }
         }
         catch(Exception e){e.printStackTrace();}
@@ -111,33 +98,10 @@ System.out.println(jsonObject);
         @Override
         protected JSONObject doInBackground(Void... voids) {
 
-            /*
-            try {
-                String json = "";
-                String line;
-
-                URL url = new URL(url1 + searchTerm + url2);
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                while ((line = in.readLine()) != null) {
-                    System.out.println("JSON LINE " + line);
-                    json += line;
-                }
-                in.close();
-                JSONObject subredditResults = new JSONObject(json).getJSONObject("data");
-                return subredditResults;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-
-             */
-
             JSONObject returnJSON = null;
 
             try {
                 if (!enhance) {
-
                     returnJSON = RedditAPIHandler.searchPost(searchTerm).getJSONObject("data");
                 }
                 else{
@@ -146,7 +110,6 @@ System.out.println(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             return  returnJSON;
         }
 
@@ -155,22 +118,6 @@ System.out.println(jsonObject);
 
             setAdapter(jsonObject);
             setListListener();
-
-
-            /*
-            try {
-                JSONArray subslist = jsonObject.getJSONArray("children");
-                for(int i = 0; i < subslist.length();i++){
-                    JSONObject info = subslist.getJSONObject(i).getJSONObject("data");
-                    String postTitle = info.getString("title");
-                    String author = info.getString("author");
-                    String subreddit = info.getString("subreddit_name_prefixed");
-                    args.add(postTitle + "\nu/" + author + "\n" + subreddit);
-                }
-                setAdapter();
-            }
-            catch(Exception e){e.printStackTrace();}
-            */
 
         }
     }

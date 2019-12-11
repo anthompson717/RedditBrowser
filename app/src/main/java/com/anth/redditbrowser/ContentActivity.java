@@ -2,10 +2,14 @@ package com.anth.redditbrowser;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,15 +26,25 @@ import java.util.HashMap;
 
 public class ContentActivity extends AppCompatActivity {
 
+    JSONArray jsonArray;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
 
         Bundle extra = getIntent().getExtras();
         String permalink = extra.getString("permalink");
         JsonRetriever retriever = new JsonRetriever();
         retriever.execute(permalink);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.exit_in, R.anim.exit_out);
     }
 
     private void setAuthor(String author) {
@@ -104,27 +118,51 @@ public class ContentActivity extends AppCompatActivity {
     private void setContent(JSONObject comment) {
         try {
 
+            TextView tv = new TextView(getApplicationContext());
+            LinearLayout.LayoutParams tvlp = new
+                    LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            tv.setPadding(8,8,8,8);
+            tv.setLayoutParams(tvlp);
+            tv.setTextColor(Color.parseColor("#FF5700"));
+
+            FrameLayout fl = (FrameLayout) findViewById(R.id.content_main);
+            fl.addView(tv);
+
+
             if (comment.getBoolean("is_self")) {
-                TextView tv = new TextView(getApplicationContext());
-                LinearLayout.LayoutParams tvlp = new
-                        LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                tv.setText(comment.getString("body"));
-                //tv.setTextColor(Color.parseColor("#E91E63"));
-                //tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                tv.setPadding(8,8,8,8);
-                tv.setLayoutParams(tvlp);
-
-                FrameLayout fl = (FrameLayout) findViewById(R.id.content_main);
-                fl.addView(tv);
+                tv.setText("\nbody: "+comment.getString("body"));
+                System.out.println(comment.getString("body"));
             } else {
-
-
+                String url = comment.getString("url");
+                tv.setClickable(true);
+                tv.setMovementMethod(LinkMovementMethod.getInstance());
+                String text = "<a href='"+url+"'> Go to link </a>";
+                tv.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT));
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            System.out.println("errors in json, printing json");
+            System.out.println(comment.toString());
         }
+    }
+
+    public void sharePost(View v) {
+
+        Intent contactList = new Intent(this, ContactListActivity.class);
+        try {
+            String url = jsonArray.
+                    getJSONObject(0).
+                    getJSONObject("data").
+                    getJSONArray("children").
+                    getJSONObject(0).
+                    getJSONObject("data").getString("permalink");
+            contactList.putExtra("url","https://www.reddit.com" + url );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        startActivity(contactList);
     }
 
     private class JsonRetriever extends AsyncTask<String, Void, JSONArray> {
@@ -137,6 +175,7 @@ public class ContentActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONArray jsonObject) {
 
+            jsonArray = jsonObject;
             setAuthor(retrieveMainData(jsonObject, "author"));
             setSubreddit(retrieveMainData(jsonObject, "subreddit"));
             setTitle(retrieveMainData(jsonObject, "title"));

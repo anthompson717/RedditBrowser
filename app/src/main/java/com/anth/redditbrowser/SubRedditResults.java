@@ -29,6 +29,7 @@ public class SubRedditResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_reddit_results);
+
         Bundle extra = getIntent().getExtras();
         if(extra.getBoolean("subs")){
             try{
